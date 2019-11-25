@@ -1,5 +1,5 @@
 from .constants import *
-
+import json
 
 class Train:
     pass
@@ -49,6 +49,9 @@ class SRTTrain(Train):
         )
 
         return d
+
+    def to_json(self):
+        return json.dumps(self.__dict__)
 
     def general_seat_available(self):
         return "예약가능" in self.general_seat_state

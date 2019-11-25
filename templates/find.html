@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div>
+    <div>
+        <form action="/index" method="POST">
+            <fieldset>
+                <div>
+                    <select name="dep">
+                        <option value selected>출발역</option>
+                        {% for region in regions %}
+                            <option value="{{ region }}">{{ region }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <select name="arr">
+                        <option value selected>도착역</option>
+                        {% for region in regions %}
+                            <option value="{{ region }}">{{ region }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="submit" value="조회하기">
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>autoTrain</title>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/logout">logOut</a>
+        </nav>
+        <hr>
+    </header>
+
+    <main role="main">
+        <!-- Main content block -->
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

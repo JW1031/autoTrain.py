@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div>
+    <div>
+        <table>
+            <!-- query head information -->
+            <thead>
+            <!-- departure and arrival station, date -->
+            <tr></tr>
+            <!-- train information header -->
+            <!-- header: 열차 종류, 열차 번호, 출발역, 도착역, 좌석 현황, 예약하기 -->
+            <tr></tr>
+            </thead>
+            <tbody>
+                {% for train in trains %}
+                <tr>
+                    <td>{{ train.train_name }}</td>
+                    <td>{{ train.train_number }}</td>
+                    <td>
+                        <div>{{ train.dep_station_name }}</div>
+                        <em>{{ train.dep_time[:2] + ":" + train.dep_time[2:4] }}</em>
+                    </td>
+                    <td>
+                        <div>{{ train.arr_station_name }}</div>
+                        <em>{{ train.arr_time[:2] + ":" + train.arr_time[2:4] }}</em>
+                    </td>
+                    <td>
+                        {{ train.general_seat_state }}
+                    </td>
+                    <td>
+                        <a href="/reserve?index={{ trains.index(train) }}">예약하기</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

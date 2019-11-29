@@ -98,7 +98,7 @@ class SRT:
         }
 
         r = self._session.post(url=url, data=data)
-        if "login_Fail" in r.text:
+        if "FAIL" in r.text:
             self.is_login = False
             raise SRTLoginError()
 
@@ -251,8 +251,9 @@ class SRT:
         parser = SRTResponseData(r.text)
 
         dup_msg = "요청하신 승차권과 동일한 시간대에 예약 또는 발권하신 승차권이 존재합니다."
+        no_seat_msg = "잔여석"
         if not parser.success():
-            if auto_reserve is True:
+            if no_seat_msg in parser.message() and auto_reserve is True:
                 print(parser.message(), "-> 티켓을 구할 때까지 구입 시도를 진행합니다.")
                 while not parser.success():
                     data.update(Passenger.get_passenger_dict(passengers))

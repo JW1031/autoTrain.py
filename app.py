@@ -17,28 +17,29 @@ def find():
 
 @app.route('/index', methods=['POST', 'GET'])
 def index():
-    if 'username' in session:
-        if request.method == 'POST':
-            if request.form['dep'] == '' or request.form['arr'] == '':
-                return 404, "출발역 또는 도착역 선택이 잘못되었습니다."
-            session['dep'] = request.form['dep']
-            session['arr'] = request.form['arr']
-        elif 'dep' not in session or 'arr' not in session:
-            return redirect(url_for('find'))
-        srt = SRT(srt_id=session['username'], srt_pw=session['password'])
-        trains = srt.search_train(
-            dep=session['dep'],
-            arr=session['arr'],
-            available_only=False,
-            time=datetime.now().strftime("%H%M%S")
-        )
-        return render_template('index.html', trains=trains)
-    else:
+    if 'username' not in session:
         return redirect(url_for('login'))
+    if request.method == 'POST':
+        if request.form['dep'] == '' or request.form['arr'] == '':
+            return 404, "출발역 또는 도착역 선택이 잘못되었습니다."
+        session['dep'] = request.form['dep']
+        session['arr'] = request.form['arr']
+    elif 'dep' not in session or 'arr' not in session:
+        return redirect(url_for('find'))
+    srt = SRT(srt_id=session['username'], srt_pw=session['password'])
+    trains = srt.search_train(
+        dep=session['dep'],
+        arr=session['arr'],
+        available_only=False,
+        time=datetime.now().strftime("%H%M%S")
+    )
+    return render_template('index.html', trains=trains)
 
 
 @app.route('/reserve', methods=['POST', 'GET'])
 def reserve():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     if request.method == 'GET':
         result = int(request.args.get('index'))
         srt = SRT(srt_id=session['username'], srt_pw=session['password'])
